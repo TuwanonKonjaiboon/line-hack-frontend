@@ -1,0 +1,25 @@
+//fade
+@mixin fade-transition($duration: 0.25s) {
+  transition: opacity $duration;
+
+  &.showing {
+    display: block;
+    opacity: 0;
+  }
+  
+  &.show {
+    opacity: 1;
+  }
+
+  &.hiding {
+    opacity: 0;
+  }
+
+  &.hide {
+    display: none;
+  }
+}
+
+.fade-transition {
+  @include fade-transition;
+}

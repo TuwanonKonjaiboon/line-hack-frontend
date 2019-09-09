@@ -1,0 +1,377 @@
+@import 'transitions';
+@import 'marginpadding';
+@import 'rowcol';
+
+// constants
+$break-sm: 576px;
+$break-md: 768px;
+$break-lg: 992px;
+$break-xl: 1200px;
+$breakpoints: ("sm": $break-sm, "md": $break-md, "lg": $break-lg, "xl": $break-xl);
+
+$imgop-bp: (1920, 1600, 1280, 768, 480, 360, 240, 196);
+
+//functions
+@function getimgexti($path) {
+  $jpgi: str-index(to-lower-case($path), ".jpg");
+  @if ($jpgi != null) {
+    @return $jpgi + 1;
+  }
+  $pngi: str-index(to-lower-case($path), ".png");
+  @if ($pngi != null) {
+    @return $pngi + 1;
+  }
+  $gifi: str-index(to-lower-case($path), ".gif");
+  @if ($gifi != null) {
+    @return $gifi + 1;
+  }
+  $webpi: str-index(to-lower-case($path), ".webp");
+  @if ($webpi != null) {
+    @return $webpi + 1;
+  }
+  $jpegi: str-index(to-lower-case($path), ".jpeg");
+  @if ($jpegi != null) {
+    @return $jpegi + 1;
+  }
+  @return "unknown";
+}
+
+@function getimgext($path) {
+  @return str-slice($path, getimgexti($path));
+}
+
+@function removeimgext($path) {
+  //@debug $path;
+  //@debug getimgexti($path);
+  @return str-slice($path, 1, getimgexti($path) - 2);
+}
+
+@function imgext($path, $ext) {
+  @return removeimgext($path) + "." + $ext;
+}
+
+@function imgnameappend($path, $append) {
+  @return removeimgext($path) + $append + "." + getimgext($path);
+}
+
+// mixins
+@mixin background-image-x($src) {
+  background-image: url(imgext($src, "webp")), url($src);
+
+  @each $bp in $imgop-bp {
+    @media (max-width: $bp+px) {
+      background-image: url(imgext(imgnameappend($src, "-" + $bp + "w"), "webp")), url(imgnameappend($src, "-" + $bp + "w"));
+    }
+  }
+}
+
+@mixin background-image-x-important($src) {
+  background-image: url(imgext($src, "webp")), url($src) !important;
+
+  @each $bp in $imgop-bp {
+    @media (max-width: $bp+px) {
+      background-image: url(imgext(imgnameappend($src, "-" + $bp + "w"), "webp")), url(imgnameappend($src, "-" + $bp + "w")) !important;
+    }
+  }
+}
+
+// global fix
+* {
+  box-sizing: border-box;
+}
+
+picture {
+  width: 100%;
+  line-height: 0;
+  display: inline-block;
+}
+
+// base class
+.hbox {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  & > * {
+    flex-grow: 1;
+  }
+}
+
+.notfluid {
+  width: auto;
+}
+
+.vbox {
+  display: flex;
+  flex-direction: column;
+}
+
+.lrbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lcrbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+  & > *:first-child + * {
+    flex-grow: 1;
+  }
+}
+
+@mixin resp {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.resp-1 {
+  @include resp;
+
+  & > * {
+    flex-basis: 100%;
+  }
+}
+
+.resp-2 {
+  @include resp;
+
+  & > * {
+    flex-basis: 50%;
+  }
+
+  @media (min-width: $break-md) {
+    & > * {
+      flex-basis: 50%;
+    }
+  }
+}
+
+.resp-3 {
+  @include resp;
+
+  & > * {
+    flex-basis: 33.33%;
+  }
+
+  @media (min-width: $break-sm) {
+    & > * {
+      flex-basis: 33.33%;
+    }
+  }
+}
+
+.resp-4 {
+  @include resp;
+
+  & > * {
+    flex-basis: 50%;
+  }
+
+  @media (min-width: $break-sm) {
+    & > * {
+      flex-basis: 50%;
+    }
+  }
+
+  @media (min-width: $break-md) {
+    & > * {
+      flex-basis: 25%;
+    }
+  }
+}
+
+.resp-5 {
+  @include resp;
+
+  & > * {
+    flex-basis: 50%;
+  }
+
+  @media (min-width: $break-sm) {
+    & > * {
+      flex-basis: 50%;
+    }
+  }
+
+  @media (min-width: $break-md) {
+    & > * {
+      flex-basis: 33.33%;
+    }
+  }
+
+  @media (min-width: $break-lg) {
+    & > * {
+      flex-basis: 20%;
+    }
+  }
+}
+
+@each $bp, $size in $breakpoints {
+  .swapbox-#{$bp} {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: $size) {
+    .swapbox-#{$bp} {
+      flex-direction: row;
+    }
+  }
+  
+  .swapbox-re-#{$bp} {
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media (min-width: $size) {
+    .swapbox-re-#{$bp} {
+      flex-direction: column;
+    }
+  }
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.hover-highlight {
+  &:hover {
+    opacity: 0.85;
+    cursor: pointer;
+  }
+}
+
+.dropdown {
+  @include fade-transition;
+}
+
+.show {
+  display: block;
+}
+
+img.lazy {
+  visibility: hidden;
+}
+
+//display system
+.d-none { display: none; }
+.d-block { display: block; }
+.d-xs-none { display: none; }
+.d-xs-block { display: block; }
+@each $bp, $size in $breakpoints {
+  @media (min-width: $size) {
+    .d-#{$bp}-none { display: none; }
+    .d-#{$bp}-block { display: block; }
+  }
+}
+
+//bootstrap form-control
+.form-control {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+//bootstrap container
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: $break-sm) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: $break-md) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: $break-lg) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: $break-xl) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+//h margin fix
+h1, h2, h3, h4 {
+  margin-top: 0;
+  margin-bottom: .5rem;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.horiinf, .horiscroll {
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  .horiinf-child, .horiscroll-child {
+    display: inline-block;
+  }
+}
+
+.horiinf {
+  overflow-x: hidden;
+}
+
+.horiscroll {
+  overflow-x: scroll;
+}
+
+.backdrop {
+  z-index: 10000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.9); 
+}
