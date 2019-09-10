@@ -3,7 +3,7 @@
     .header-container
       .header-icons
         icon-base.icon(style="margin-right: 24px;" icon-name="camera" width="24px" height="22px"): icon-camera
-        icon-base.icon(icon-name="camera" width="24px" height="22px"): icon-camera
+        icon-base.icon(icon-name="camera" width="28px" height="24px"): icon-search
       .header-heading.mb-4 Explore
       CataList(:catas="catagories")
     main
@@ -30,6 +30,7 @@ import ItemHori from '../components/ItemHori.vue';
 import CataList from '../components/CataList.vue';
 import IconBase from '../components/IconBase';
 import IconCamera from '../components/layouts/icons/IconCamera.vue';
+import IconSearch from '../components/layouts/icons/IconSearch.vue';
 
 export default {
   name: "ExploreScreen",
@@ -37,7 +38,7 @@ export default {
   computed: {
     ...storeState()
   },
-  components: { ItemHori, CataList, IconBase, IconCamera }
+  components: { ItemHori, CataList, IconBase, IconCamera, IconSearch }
 }
 </script>
 
@@ -51,7 +52,7 @@ export default {
       position: absolute;
       right: 10%;
       top: 20%;
-      .icon svg g {
+      .icon g {
         fill: #fff;
       }
     }
