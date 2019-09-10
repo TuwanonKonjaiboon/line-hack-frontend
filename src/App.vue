@@ -1,16 +1,17 @@
 <template lang="pug">
   #app
     router-view
+    NavMobile
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import NavMobile from './components/layouts/NavMobile.vue'
 
 export default {
   name: "App",
   props: ["title"],
   components: {
-    HelloWorld
+    NavMobile
   }
 };
 </script>
@@ -24,8 +25,11 @@ export default {
 }
 
 html {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "SF Pro Text", sans-serif;
+  line-height: 24px;
+  height: 100%;
 }
+
 @import "styles/base";
 </style>
 

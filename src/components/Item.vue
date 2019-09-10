@@ -2,16 +2,41 @@
   .item-container
     .item-img-container: img.item-img(v-bind:src="item.img")
     .item-name {{item.name}}
-    .item-price {{item.price}}
     .item-shop-container.lcrbox
       .item-shop-name OK Shop
-      div
-      .item-fav-btn
-        .item-fav-icon Fav
     .item-rating-container.lcrbox
-      .item-rating-star S
       .item-rating {{item.rating}}
+      i.fas.fa-star.ml-1
+    .item-price {{item.price}} ฿
 </template>
+
+<style lang="scss">
+  .item-container {
+    position: relative;
+    margin: 8px;
+    .item-img-container {
+      width: 139px;
+      height: 106px;
+      /* overflow: hidden; */
+      .item-img {
+        border-radius: 5px;
+        width: 100%;
+      }
+    }
+    .item-name {
+      font-size: 1rem;
+    }
+    .item-shop-container, .item-rating-container {
+      color: #707074;
+    }
+    .item-price {
+      position: absolute;
+      right: 5px;
+      bottom: 2px;
+      font-size: 18px;
+    }
+  }
+</style>
 
 <script>
 import store, { storeState } from "../store";
@@ -25,34 +50,4 @@ export default {
   props: ["item", "itemi"]
 };
 </script>
-
-<style lang="scss">
-.item-container {
-  padding: 8px;
-  margin: 8px;
-
-  .item-rating-star {
-    margin-right: 4px;
-  }
-
-  .item-name {
-    font-weight: bold;
-  }
-
-  .item-img-container {
-    text-align: center;
-
-    .item-img {
-      width: 100px;
-      height: 100px;
-    }
-  }
-
-  &::after {
-    content: "";
-    flex: auto;
-    flex-grow: 1;
-  }
-}
-</style>
 

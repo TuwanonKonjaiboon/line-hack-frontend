@@ -1,16 +1,14 @@
 import VueRouter from "vue-router";
+
 import HomeScreen from "./screens/HomeScreen.vue";
-import MyShopScreen from "./screens/MyShopScreen.vue";
+import ExploreScreen from './screens/ExploreScreen.vue';
 
 window.router = new VueRouter({
   mode: "history",
   base: "/",
   routes: [
     { path: "/", component: HomeScreen },
-    {
-      path: "/myshop",
-      component: MyShopScreen
-    }
+    { path: "/explore", component: ExploreScreen },
   ]
 });
 

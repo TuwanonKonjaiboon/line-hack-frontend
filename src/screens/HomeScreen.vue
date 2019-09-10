@@ -17,11 +17,3 @@ export default {
   components: { ItemHori }
 };
 </script>
-
-<style lang="scss">
-.favourite-items-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-</style>

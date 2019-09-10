@@ -1,0 +1,52 @@
+< collect item >
+item : {
+    (key)id : string,
+    name : string,
+    img : { imgUrl },
+    favBy : [ ...{ userRef } ],
+    orderBy : [ ...{ orderRef } ],
+    reviews : [ ...{ reviewRef } ],
+    price : number,
+    promoCode : string,
+    shop : { shopRef }
+}
+
+< collect type of plant >
+plants : {
+    (key)name : { plantName },
+    image : { url },
+    information : string,
+    item : [ ...{ itemRef } ]
+}
+
+< collect review >
+reviews : {
+    (key)id : string,
+    item : { itemRef },
+    text : string,
+    user : { userRef },
+    timestamp : timestamp
+}
+
+< collect shop >
+shops : {
+    (key)id : string,
+    contact : {
+        line : { @ ... },
+        tel : { tel }
+    }
+    items : [ ...{ itemRef } ],
+    name : string,
+    reviews : [ ...{ reviewsRef } ]
+}
+
+< collect order >
+order : {
+    (key)id : string,
+    timestamp : timestamp,
+    user : { userRef },
+    shop : { shopRef },
+    item : { itemRef },
+    price : number,
+    location : { userLoc } # อาจจะมี/ไม่
+}
