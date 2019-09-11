@@ -50,7 +50,7 @@ import IconCart from './icons/IconCart.vue';
 let navList = [
   { name: "home", icon: IconHome, href: `/`},
   { name: "favorite", icon: IconFavorite, href: `#`},
-  { name: "cart", icon: IconCart, href: `#`},
+  { name: "cart", icon: IconCart, href: `/cart`},
   { name: "shop", icon: IconStore, href: `/explore`},
   { name: "profile", icon: IconProfile, href: `#`},
 ]

@@ -12,7 +12,8 @@ let initialState = {
     { name: "Lily", img: "https://www.gardeners.com/on/demandware.static/-/Library-Sites-SharedLibrary/default/dw68196a61/Articles/Gardening/Hero_Thumbnail/5326-lily-pxhere.jpg"},
     { name: "Sansevierias", img: "https://realornamentals.com/plant-store/media/catalog/product/cache/6/image/9df78eab33525d08d6e5fb8d27136e95/r/o/robusta-snake-plant-small-ornamental-plant-sanseveria-robusta-realornamentals.com-web.jpg"},
   ],
-  plants: []
+  plants: [],
+  cartItems: []
 };
 
 const itemObject = {
@@ -30,12 +31,23 @@ const itemObject = {
 };
 
 // raise items for 20 items
-for (var i = 0; i < 20; i++) {
+for (let i = 0; i < 20; i++) {
   initialState.items.push({
     ...itemObject,
     shop: i,
     name: `Shop ${i} Flower`
   });
+}
+
+for(let i=0; i<3; i++) {
+  initialState.cartItems.push(
+    {
+      ...itemObject,
+      shop: 'OK Shop',
+      name: `Shop ${i} Flower`,
+      amount: i+3
+    }
+  )
 }
 
 Vue.use(Vuex);

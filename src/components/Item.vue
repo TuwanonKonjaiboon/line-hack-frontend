@@ -10,10 +10,9 @@
     .item-price {{item.price}} ฿
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .item-container {
     position: relative;
-    margin: 8px;
     .item-img-container {
       width: 139px;
       height: 106px;
