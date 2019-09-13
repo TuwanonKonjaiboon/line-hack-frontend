@@ -1,5 +1,5 @@
 <template lang="pug">
-  .item-container
+  .item-container(@click="navigateToInfo")
     .item-img-container: img.item-img(v-bind:src="item.img")
     .item-name {{item.name}}
     .item-shop-container.lcrbox
@@ -13,6 +13,7 @@
 <style lang="scss" scoped>
   .item-container {
     position: relative;
+    margin-right: 16px;
     .item-img-container {
       width: 139px;
       height: 106px;
@@ -46,7 +47,12 @@ export default {
   computed: {
     ...storeState()
   },
-  props: ["item", "itemi"]
+  props: ["item", "itemi"],
+  methods: {
+    navigateToInfo: function () {
+      this.$router.push({ path: `/items/${this.$props.item.id}` })
+    }
+  }
 };
 </script>
 

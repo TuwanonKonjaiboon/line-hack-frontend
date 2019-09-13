@@ -2,20 +2,21 @@
   .screen-container
     .header-container
       .header-icons
-        icon-base.icon(icon-name="camera" width="28px" height="24px"): icon-search
+        span.material-icons.icon search
       .header-heading.mb-4 Shopping Cart
     .items-container
       template(v-for="(item, i) in cartItems")
         cart-item(:item="item" :key="i")
-    .conclusion-container
-      mixin conclusion-detail(key, value)
-        .conclusion-detail
-          .conclusion-text-key=key 
-          .conclusion-text-value&attributes(attributes)=value
-      +conclusion-detail('Subtotal', 240 + ' baht')
-      +conclusion-detail('Discount coupouns', 'add')(class="material-icons")
-        .coupoins
-      +conclusion-detail('Total Amount', 240 + ' baht')
+    section.conclusion-container
+      .conclusion-detail
+        .conclusion-text-key Subtotal
+        .conclusion-text-value {{ `${subtotal} baht` }}
+      .conclusion-detail
+        .conclusion-text-key Discount Coupouns
+        .conclusion-text-value.material-icons add
+      .conclusion-detail
+        .conclusion-text-key Total Amount
+        .conclusion-text-value {{ `${subtotal} baht` }}
     .cta.w-100
       button.btn-checkout Checkout
 
@@ -26,13 +27,25 @@ import store, {storeState} from '../store';
 import IconBase from '../components/IconBase';
 import IconSearch from '../components/layouts/icons/IconSearch.vue';
 import CartItem from '../components/CartItem.vue';
+
 export default {
 name: "ExploreScreen",
   store,
   computed: {
-    ...storeState()
+    ...storeState(),
+    subtotal() {
+      return store.getters.subTotal;
+    },
+    totalAmount() {
+      // TODO return total amount (subtotal - discount)
+      return 1;
+    }
   },
-  components: { IconBase, IconSearch, CartItem }
+  components: { 
+    IconBase, 
+    IconSearch, 
+    CartItem,
+  },
 }
 </script>
 
@@ -47,8 +60,9 @@ name: "ExploreScreen",
       position: absolute;
       right: 24px;
       top: 20%;
-      .icon g {
-        fill: #fff;
+      .icon {
+        font-size: 28px;
+        color: #fff;
       }
     }
     .header-heading {
@@ -82,8 +96,8 @@ name: "ExploreScreen",
     }
   }
   .cta {
-    position: absolute;
-    bottom: 80px;
+    margin-top: 200px;
+    margin-bottom: 100px;
     display: flex;
     justify-content: center;
     .btn-checkout {

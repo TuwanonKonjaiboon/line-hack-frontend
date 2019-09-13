@@ -4,19 +4,14 @@
     .item-detail
       .item-name {{ item.name }}
       .item-shop {{ item.shop }}
-      .item-price {{ item.price + ' ฿' }}
+      .item-price(v-if="false") {{ item.price + ' ฿' }}
     .item-cta
-      .item-amount
-        span.material-icons.icon(@click="add_amount_by_one") add_circle
-        span {{ item.amount }}
-        span.material-icons.icon(@click="remove_amount_by_one") remove_circle
-      .delete-item: span.material-icons(@click="remove_item") clear
-
+      .item-total-price {{ (item.price * item.amount) }} Baht
 </template>
 
 <script>
 export default {
-  name: "CartItem",
+  name: "CartItemView",
   props: ['item'],
   methods: {
     add_amount_by_one: function() {
@@ -32,8 +27,6 @@ export default {
       })
     },
     remove_item: function() {
-      // TODO - Replace this shitty window.confirm w/ beautiful Modal!!!
-      if (window.confirm(`Do you sure to remove this ${this.$props.item.name}?` ))
       this.$store.dispatch('remove_cart_item', {
         itemId: this.$props.item.id
       })

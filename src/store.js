@@ -1,17 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import uuid from 'uuid';
 import { mapState } from "vuex";
+
+import { ADD_AMOUNT, REMOVE_AMOUNT, REMOVE_CART_ITEM, ADD_CART_ITEM } from './types/mutation_types.js'
 
 let initialState = {
   items: [],
-  catagories: [
-    { name: "Rose", img: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/peach-rose-royalty-free-image-648161008-1548273443.jpg"},
-    { name: "Cactus", img: "https://www.potterybarn.com/pbimgs/rk/images/dp/wcm/201922/0088/faux-potted-mini-cactus-c.jpg"},
-    { name: "Fern", img: "https://www.adairs.com.au/globalassets/imported-assets/homewares/home-republic/home-republic/43817_fishbone/43817_fishbone_zoom_01.jpg"},
-    { name: "Calendula", img: "https://cdn.pixabay.com/photo/2018/07/10/11/11/marigold-3528402__340.jpg"},
-    { name: "Lily", img: "https://www.gardeners.com/on/demandware.static/-/Library-Sites-SharedLibrary/default/dw68196a61/Articles/Gardening/Hero_Thumbnail/5326-lily-pxhere.jpg"},
-    { name: "Sansevierias", img: "https://realornamentals.com/plant-store/media/catalog/product/cache/6/image/9df78eab33525d08d6e5fb8d27136e95/r/o/robusta-snake-plant-small-ornamental-plant-sanseveria-robusta-realornamentals.com-web.jpg"},
-  ],
   plants: [],
   cartItems: []
 };
@@ -34,28 +29,61 @@ const itemObject = {
 for (let i = 0; i < 20; i++) {
   initialState.items.push({
     ...itemObject,
-    shop: i,
+    id: uuid(),
+    shop: 'OK Shop',
     name: `Shop ${i} Flower`
   });
-}
-
-for(let i=0; i<3; i++) {
-  initialState.cartItems.push(
-    {
-      ...itemObject,
-      shop: 'OK Shop',
-      name: `Shop ${i} Flower`,
-      amount: i+3
-    }
-  )
 }
 
 Vue.use(Vuex);
 
 window.store = new Vuex.Store({
   state: initialState,
-  mutations: {},
-  getters: {}
+  mutations: {
+    [ADD_AMOUNT](state, {itemId, amount}) {
+      const ind = state.cartItems.findIndex(item => item.id === itemId);
+      state.cartItems[ind].amount += amount;
+    },
+    [REMOVE_AMOUNT](state, {itemId, amount}) {
+      const ind = state.cartItems.findIndex(item => item.id === itemId);
+      if(state.cartItems[ind].amount > 0)
+        state.cartItems[ind].amount -= amount;
+    },
+    [REMOVE_CART_ITEM](state, {itemId}) {
+      const ind = state.cartItems.findIndex(item => item.id === itemId);
+      state.cartItems.splice(ind, 1);
+    },
+    [ADD_CART_ITEM](state, {itemId}) {
+      if(state.cartItems.find(item => item.id === itemId) !== undefined) {
+        return;  
+      }
+      const ind = state.items.findIndex(item => item.id === itemId);
+      state.cartItems = [ ...state.cartItems, { ...state.items[ind], amount: 1 }];
+    }
+  },
+  getters: {
+    subTotal: (state) => {
+      let sum = 0;
+      state.cartItems.forEach(item => {
+        sum += item.price * item.amount;
+      })
+      return sum;
+    }
+  },
+  actions: {
+    add_amount_by_one: (context, payload) => {
+      context.commit(ADD_AMOUNT, payload);
+    },
+    remove_amount_by_one: (context, payload) => {
+      context.commit(REMOVE_AMOUNT, payload);
+    },
+    add_cart_item: (context, payload) => {
+      context.commit(ADD_CART_ITEM, payload);
+    },
+    remove_cart_item: (context, payload) => {
+      context.commit(REMOVE_CART_ITEM, payload);
+    }
+  }
 });
 
 export default window.store;

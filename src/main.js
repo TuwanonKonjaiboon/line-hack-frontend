@@ -1,10 +1,13 @@
 import Vue from "vue";
-import App from "./App.vue";
+import VModel from 'vue-js-modal';
 import VueRouter from "vue-router";
 import router from "./router";
 import store from "./store";
 
+import App from "./App.vue";
+
 Vue.use(VueRouter);
+Vue.use(VModel);
 
 Vue.config.productionTip = false;
 
